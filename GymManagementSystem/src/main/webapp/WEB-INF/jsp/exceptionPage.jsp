@@ -7,14 +7,20 @@
 	<title>Insert title here</title>
 	</head>
 		<style>
+			body{
+		    height: 100vh;
+		    display:flex;
+				justify-content:center;
+				align-items:center;
+		  }
 			div{
-				height:100vh;
 				display:flex;
 				justify-content:center;
 				align-items:center;
 				border:2px solid black;
 				box-shadow:5px 5px 10px black;
 				flex-direction:column;
+				background-color:azure;
 			}
 			div:hover{
 				box-shadow:5px 5px 10px goldenrod;
