@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -151,6 +150,8 @@
     <a href="#dashboard">Dashboard</a>
     <a href="#manage-items">Manage Gym Item</a>
     <a href="#manage-slots">Manage Slot</a>
+    <a href="#manage-users">Manage Users</a>
+    <a href="#update-seats">Update Seats</a>
     <a href="#logout" onclick="logout()">Logout</a>
 </div>
 
@@ -172,7 +173,6 @@
                         <a href="/gymitem">Add Item</a>
                     </div>
                     <p>Add a new gym item to the inventory.</p>
-                    <!-- Add gym item adding functionality here -->
                 </div>
             </div>
             <div class="flex-item">
@@ -182,7 +182,6 @@
                         <a href="/gymitems">View Items</a>
                     </div>
                     <p>View and manage existing gym items.</p>
-                    <!-- Add gym item viewing functionality here -->
                 </div>
             </div>
         </div>
@@ -197,7 +196,6 @@
                         <a href="/slot">Add Slot</a>
                     </div>
                     <p>Add a new slot for gym sessions.</p>
-                    <!-- Add slot adding functionality here -->
                 </div>
             </div>
             <div class="flex-item">
@@ -207,7 +205,6 @@
                         <a href="/slots">View Slots - Book</a>
                     </div>
                     <p>View, book and manage existing gym slots.</p>
-                    <!-- Add slot viewing functionality here -->
                 </div>
             </div>
             <div class="flex-item">
@@ -217,7 +214,6 @@
                         <a href="/bookings">View Report</a>
                     </div>
                     <p>View detailed booking reports.</p>
-                    <!-- Add booking report functionality here -->
                 </div>
             </div>
             <div class="flex-item">
@@ -227,11 +223,48 @@
                         <a href="/cancel-bookings">Cancel Booking</a>
                     </div>
                     <p>Cancel existing bookings.</p>
-                    <!-- Add booking cancellation functionality here -->
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="card">
+                    <h2>User Deletion</h2>
+                    <div class="sub-navbar">
+                        <a href="/delete-user">Delete users</a>
+                    </div>
+                    <p>Remove users</p>
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="card">
+                    <h2>Update slots</h2>
+                    <div class="sub-navbar">
+                        <a href="/update">slots updates</a>
+                    </div>
+                    <p>Update existing slots</p>
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="card">
+                    <h2>Increase price</h2>
+                    <div class="sub-navbar">
+                        <a href="/update-price">update slot price</a>
+                    </div>
+                    <p>change the existing slot price</p>
+                </div>
+            </div>
+            <div class="flex-item">
+                <div class="card">
+                    <h2>Customer's Feedback</h2>
+                    <div class="sub-navbar">
+                        <a href="/view-feedback">View Feedback</a>
+                    </div>
+                    <p>see the feedback of customers</p>
                 </div>
             </div>
         </div>
     </section>
+    
+   
 </div>
 
 <!-- Footer Section -->
@@ -243,8 +276,19 @@
     function logout() {
         window.location.href = "/logout";
     }
+
+    // Example notification handling (modify based on actual implementation)
+    window.onload = function() {
+        const notificationElement = document.getElementById("notification");
+        const urlParams = new URLSearchParams(window.location.search);
+        const notification = urlParams.get('notification');
+
+        if (notification) {
+            notificationElement.textContent = notification;
+            notificationElement.style.color = "red";
+        }
+    }
 </script>
 
 </body>
 </html>
- 

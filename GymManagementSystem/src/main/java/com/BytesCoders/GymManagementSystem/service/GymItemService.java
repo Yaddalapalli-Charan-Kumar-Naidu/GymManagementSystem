@@ -12,6 +12,7 @@ import com.BytesCoders.GymManagementSystem.bean.Item;
 import com.BytesCoders.GymManagementSystem.bean.SlotItem;
 import com.BytesCoders.GymManagementSystem.bean.SlotItemEmbed;
 import com.BytesCoders.GymManagementSystem.dao.GymItemDao;
+import com.BytesCoders.GymManagementSystem.dao.GymItemRepository;
 import com.BytesCoders.GymManagementSystem.dao.SlotItemDao;
 
 @Service
@@ -59,6 +60,18 @@ public class GymItemService {
         	 }
 		
 	}
+	 @Autowired
+	    private GymItemRepository gymItemRepository;
+
+	    public List<GymItem> getAllItems() {
+	        return gymItemRepository.findAll();
+	    }
+
+	    public void updateItemCount(Long itemId, int count) {
+	        GymItem item = gymItemRepository.findById(itemId).orElseThrow();
+	        item.setCount(count);
+	        gymItemRepository.save(item);
+	    }
 
 
 	

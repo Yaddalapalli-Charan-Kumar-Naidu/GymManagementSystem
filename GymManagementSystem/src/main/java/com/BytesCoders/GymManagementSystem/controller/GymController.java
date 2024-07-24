@@ -1,6 +1,8 @@
 package com.BytesCoders.GymManagementSystem.controller;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.BytesCoders.GymManagementSystem.bean.Feedback;
 import com.BytesCoders.GymManagementSystem.bean.GymBook;
 import com.BytesCoders.GymManagementSystem.bean.GymItem;
+import com.BytesCoders.GymManagementSystem.bean.GymUser;
 import com.BytesCoders.GymManagementSystem.bean.Item;
 import com.BytesCoders.GymManagementSystem.bean.Slot;
 import com.BytesCoders.GymManagementSystem.bean.SlotItem;
@@ -24,8 +28,11 @@ import com.BytesCoders.GymManagementSystem.dao.GymBookDao;
 import com.BytesCoders.GymManagementSystem.dao.GymItemDao;
 import com.BytesCoders.GymManagementSystem.dao.SlotDao;
 import com.BytesCoders.GymManagementSystem.dao.SlotItemDao;
+import com.BytesCoders.GymManagementSystem.dao.SlotRepository;
 import com.BytesCoders.GymManagementSystem.exception.SeatNotAvailableException;
 import com.BytesCoders.GymManagementSystem.exception.SlotAlreadyBookedException;
+import com.BytesCoders.GymManagementSystem.exception.UserHasBookingsException;
+import com.BytesCoders.GymManagementSystem.service.FeedbackService;
 import com.BytesCoders.GymManagementSystem.service.GymItemService;
 import com.BytesCoders.GymManagementSystem.service.GymUserService;
 
@@ -307,5 +314,111 @@ public class GymController {
     public ModelAndView saveItemSlots(@PathVariable Long id) {
         itemService.addNewItemToSlots(id);   
         return new ModelAndView("redirect:/index");
+    }
+    @GetMapping("/delete-user")
+    public ModelAndView showDeleteUserPage() {
+    	List<GymUser> allUsers = userService.getAllUsers(); // Fetch all users
+        List<GymUser> customers = allUsers.stream()
+                                           .filter(user -> "Customer".equalsIgnoreCase(user.getType()))
+                                           .collect(Collectors.toList());
+        ModelAndView mv = new ModelAndView("deleteUser");
+        mv.addObject("userList", customers);
+        return mv;
+    }
+    @GetMapping("/customer-modification")
+    public ModelAndView coutomerModificationPage() {
+        ModelAndView mv = new ModelAndView("customerModification");
+        return mv;
+    }
+    @PostMapping("/delete-customer")
+    public ModelAndView deleteCustomer(@RequestParam String username) {
+        List<GymBook> bookings = gymBookDao.getEntitiesByUsername(username);
+        if (bookings.isEmpty()) {
+            userService.removeItem(username);
+            return new ModelAndView("redirect:/customer-modification")
+                    .addObject("successMessage", "Customer deleted successfully.");
+        } else {
+            throw new UserHasBookingsException(username + " has booked slots. Cancel the bookings first before deletion.");
+        }
+    }
+    @ExceptionHandler(UserHasBookingsException.class)
+    public ModelAndView handleSlotAlreadyBookedException(UserHasBookingsException exception) {
+        ModelAndView mv = new ModelAndView("exceptionPage");
+        mv.addObject("errorMessage", exception.getMessage());
+        return mv;
+    }
+    @Autowired
+    private GymItemService gymItemService;
+    
+    @GetMapping("/update")
+    public ModelAndView showUpdateForm() {
+        List<GymItem> items = gymItemService.getAllItems();
+        ModelAndView modelAndView = new ModelAndView("updateItem");
+        modelAndView.addObject("items", items);
+        return modelAndView;
+    }
+
+    @PostMapping("/update")
+    public ModelAndView updateItemCount(@RequestParam("itemId") Long itemId, 
+                                        @RequestParam("count") int count) {
+        gymItemService.updateItemCount(itemId, count);
+        return new ModelAndView("redirect:/update");
+    }
+    @Autowired
+    private SlotRepository slotRepository;
+
+    @GetMapping("/update-price")
+    public ModelAndView showUpdatePricePage() {
+        ModelAndView mav = new ModelAndView("updatePrice");
+        List<Slot> slots = slotRepository.findAll();
+        mav.addObject("slots", slots);
+        return mav;
+    }
+
+    @PostMapping("/update-price")
+    public ModelAndView updateSlotPrice(@RequestParam Long slotId, @RequestParam Double newPrice) {
+        ModelAndView mav = new ModelAndView("updatePrice");
+        Optional<Slot> optionalSlot = slotRepository.findById(slotId);
+        if (optionalSlot.isPresent()) {
+            Slot slot = optionalSlot.get();
+            slot.setPricing(newPrice);
+            slotRepository.save(slot);
+            mav.addObject("message", "Slot price updated successfully.");
+        } else {
+            mav.addObject("message", "Slot with ID " + slotId + " not found.");
+        }
+        // Re-fetch the list of slots to update the view
+        List<Slot> slots = slotRepository.findAll();
+        mav.addObject("slots", slots);
+        return mav;
+    }
+    @Autowired
+    private FeedbackService feedbackService;
+    @PostMapping("/feedback")
+    public ModelAndView submitFeedback(
+            @RequestParam("name") String name,
+            @RequestParam("email") String email,
+            @RequestParam("feedback") String feedback) {
+
+        Feedback newFeedback = new Feedback();
+        newFeedback.setName(name);
+        newFeedback.setEmail(email);
+        newFeedback.setFeedback(feedback);
+
+        feedbackService.saveFeedback(newFeedback);
+
+        // Create a ModelAndView object to handle the view and model
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("feedback-success");
+        modelAndView.addObject("message", "Thank you for your feedback! Your feedback has been received and we will review it shortly.");
+
+        return modelAndView;
+    }
+    @GetMapping("/view-feedback")
+    public ModelAndView viewFeedback() {
+        List<Feedback> feedbackList = feedbackService.getAllFeedback();
+        ModelAndView modelAndView = new ModelAndView("viewFeedback");
+        modelAndView.addObject("feedbackList", feedbackList);
+        return modelAndView;
     }
 }

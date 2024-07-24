@@ -46,6 +46,11 @@ public class GymItem {
 		this.totalSeat = totalSeat;
 	}
 
+	public void setCount(int count) {
+		// TODO Auto-generated method stub
+		this.totalSeat=count;
+	}
+
 
 	
 	

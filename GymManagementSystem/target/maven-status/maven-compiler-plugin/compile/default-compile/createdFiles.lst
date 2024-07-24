@@ -1,9 +1,11 @@
 com\BytesCoders\GymManagementSystem\exception\SlotAlreadyBookedException.class
+com\BytesCoders\GymManagementSystem\service\FeedbackService.class
 com\BytesCoders\GymManagementSystem\exception\SeatNotAvailableException.class
 com\BytesCoders\GymManagementSystem\dao\GymBookDaoImpl.class
 com\BytesCoders\GymManagementSystem\bean\GymItem.class
 com\BytesCoders\GymManagementSystem\ServletInitializer.class
 com\BytesCoders\GymManagementSystem\controller\LoginController.class
+com\BytesCoders\GymManagementSystem\exception\UserNotFoundException.class
 com\BytesCoders\GymManagementSystem\dao\SlotItemDao.class
 com\BytesCoders\GymManagementSystem\dao\GymItemDaoImpl.class
 com\BytesCoders\GymManagementSystem\bean\GymBook.class
@@ -11,7 +13,9 @@ com\BytesCoders\GymManagementSystem\dao\SlotItemDaoImpl.class
 com\BytesCoders\GymManagementSystem\bean\Item.class
 com\BytesCoders\GymManagementSystem\bean\Slot.class
 com\BytesCoders\GymManagementSystem\bean\SlotItemEmbed.class
+com\BytesCoders\GymManagementSystem\dao\FeedbackRepository.class
 com\BytesCoders\GymManagementSystem\controller\GymController.class
+com\BytesCoders\GymManagementSystem\exception\UserHasBookingsException.class
 com\BytesCoders\GymManagementSystem\dao\GymBookDao.class
 com\BytesCoders\GymManagementSystem\config\EncoderConfig.class
 com\BytesCoders\GymManagementSystem\service\GymUserService.class
@@ -22,6 +26,7 @@ com\BytesCoders\GymManagementSystem\service\GymItemService.class
 com\BytesCoders\GymManagementSystem\dao\SlotDaoImpl.class
 com\BytesCoders\GymManagementSystem\bean\SlotItem.class
 com\BytesCoders\GymManagementSystem\dao\SlotRepository.class
+com\BytesCoders\GymManagementSystem\bean\Feedback.class
 com\BytesCoders\GymManagementSystem\dao\GymItemRepository.class
 com\BytesCoders\GymManagementSystem\dao\GymUserRepository.class
 com\BytesCoders\GymManagementSystem\dao\GymBookRepository.class

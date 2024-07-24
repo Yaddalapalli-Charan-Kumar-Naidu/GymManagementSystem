@@ -216,7 +216,7 @@
     <div class="container">
         <h2>About Us</h2>
         <p>Welcome to BytesCoders Gym, where we empower gym owners and managers to take control of their business with ease and efficiency. 
-        Our state-of-the-art software solution provides everything you need to manage memberships, schedule classes, process payments, and track attendance—all in one place. 
+        Our state-of-the-art software solution provides everything you need to manage memberships, schedule classes, process payments, and track attendanceâall in one place. 
         Join us and transform your gym into a thriving community that members love to be part of. With our dedicated support team, we ensure you have all the tools you need to succeed.
          Get started today and see the difference!</p>
     </div>
